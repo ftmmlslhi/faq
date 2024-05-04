@@ -24,8 +24,8 @@ export class SectionController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateSectionDto: Prisma.SectionUpdateInput) {
-    return this.sectionService.update(+id, updateSectionDto);
+  update(@Param('id') id: string, @Body() sectionUpdateInput: Prisma.SectionUpdateInput) {
+    return this.sectionService.update(+id, sectionUpdateInput);
   }
 
   @Delete(':id')

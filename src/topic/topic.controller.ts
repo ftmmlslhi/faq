@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('topic')
 export class TopicController {
   constructor(private readonly topicService: TopicService) {}
 
+  
   @Post()
-  create(@Body() createTopicDto: CreateTopicDto) {
-    return this.topicService.create(createTopicDto);
+  create(@Body() TopicCreateInput: CreateTopicDto) {
+    return this.topicService.create(TopicCreateInput);
   }
 
   @Get()
@@ -22,9 +24,9 @@ export class TopicController {
     return this.topicService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTopicDto: UpdateTopicDto) {
-    return this.topicService.update(+id, updateTopicDto);
+  @Put(':id')
+  update(@Param('id') id: string, @Body() sectionUpdateInput: Prisma.TopicUpdateInput) {
+    return this.topicService.update(+id, sectionUpdateInput);
   }
 
   @Delete(':id')

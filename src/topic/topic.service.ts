@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTopicDto } from './dto/create-topic.dto';
 import { UpdateTopicDto } from './dto/update-topic.dto';
+import { Prisma } from '@prisma/client';
+import { TopicRepository } from './topic.repository';
 
 @Injectable()
 export class TopicService {
-  create(createTopicDto: CreateTopicDto) {
-    return 'This action adds a new topic';
-  }
+  constructor(private readonly topicRepository:TopicRepository){}
+
+  create(TopicCreateInput: CreateTopicDto) {
+    return this.topicRepository.create(TopicCreateInput)
+  } 
 
   findAll() {
-    return `This action returns all topic`;
+    return this.topicRepository.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} topic`;
+    return this.topicRepository.findOne(id);
   }
 
-  update(id: number, updateTopicDto: UpdateTopicDto) {
-    return `This action updates a #${id} topic`;
+  update(id: number, topicUpdateInput: Prisma.TopicUpdateInput) {
+    return this.topicRepository.update(id , topicUpdateInput)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} topic`;
+    return this.topicRepository.remove(id);
   }
 }
