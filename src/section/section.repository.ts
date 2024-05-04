@@ -8,26 +8,31 @@ import { connect } from 'http2';
 export class SectionRepository {
   constructor(private readonly prisma: prismaService) {}
 
-  async create(sectionCreateInput: Prisma.SectionCreateInput) {
-    console.log('repo', sectionCreateInput);
-    return this.prisma.section.create({
-      data: {
-        name : sectionCreateInput.name,
-        draft_status: sectionCreateInput.draft_status,
-        public_status:sectionCreateInput.public_status,
-        Section_Topic :{
-            create:{
-                Topic : {
-                    connect:{
-                        id:1
-                    }
-                }}
-           }
-    },
-    include: {
-        Section_Topic: true,
-      },
-   })
+  async create(sectionCreateInput: CreateSectionDto) {
+    try {
+      return this.prisma.section.create({
+        data: {
+          name: sectionCreateInput.name,
+          draft_status: sectionCreateInput.draft_status,
+          public_status: sectionCreateInput.public_status,
+          Section_Topic: {
+            create: {
+              Topic: {
+                connect: {
+                  id: sectionCreateInput.Section_Topic,
+                },
+              },
+            },
+          },
+        },
+        include: {
+          Section_Topic: true,
+        },
+      });
+    } catch (error) {
+      console.error('Error updating section:', error);
+      throw error;
+    }
   }
 
   async findAll() {
@@ -35,11 +40,16 @@ export class SectionRepository {
   }
 
   async findOne(id: number) {
-    return this.prisma.section.findUnique({
-      where: {
-        id,
-      },
-    });
+    try {
+      return this.prisma.section.findUnique({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      console.error('Error updating section:', error);
+      throw error;
+    }
   }
 
   async update(id: number, sectionUpdateInput: Prisma.SectionUpdateInput) {

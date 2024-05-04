@@ -9,7 +9,7 @@ export class SectionService {
 
 constructor(private readonly sectionRepository:SectionRepository){}
 
-  create(SectionCreateInput: Prisma.SectionCreateInput) {
+  create(SectionCreateInput: CreateSectionDto) {
     return this.sectionRepository.create(SectionCreateInput)
   } 
 

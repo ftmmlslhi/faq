@@ -12,4 +12,5 @@ export class CreateSectionDto{
     draft_status: boolean;
     @IsBoolean()
     public_status: boolean;
+    Section_Topic: number;
 }

@@ -2,14 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/
 import { SectionService } from './section.service';
 import { UpdateSectionDto } from './dto/update-section.dto';
 import { Prisma } from '@prisma/client';
+import { CreateSectionDto } from './dto/create-section.dto';
 
 @Controller('section')
 export class SectionController {
   constructor(private readonly sectionService: SectionService) {}
 
   @Post()
-  create(@Body() SectionCreateInput: Prisma.SectionCreateInput) {
-    console.log('createSectionDto',SectionCreateInput);
+  create(@Body() SectionCreateInput: CreateSectionDto) {
     return this.sectionService.create(SectionCreateInput);
   }
 
@@ -24,7 +24,7 @@ export class SectionController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateSectionDto: UpdateSectionDto) {
+  update(@Param('id') id: string, @Body() updateSectionDto: Prisma.SectionUpdateInput) {
     return this.sectionService.update(+id, updateSectionDto);
   }
 
