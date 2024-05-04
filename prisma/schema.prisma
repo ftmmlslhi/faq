@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Section {
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(255)
+  draft_status  Boolean?        @default(true)
+  public_status Boolean?        @default(false)
+  Section_Topic Section_Topic[]
+}
+
+model Section_Topic {
+  section_id Int
+  topic_id   Int
+  Section    Section @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Section_Topic_ibfk_1")
+  Topic      Topic   @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Section_Topic_ibfk_2")
+
+  @@id([section_id, topic_id])
+  @@index([topic_id], map: "topic_id")
+}
+
+model Topic {
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @db.VarChar(255)
+  Section_Topic        Section_Topic[]
+  questionAnswer_Topic questionAnswer_Topic[]
+}
+
+model questionAnswer {
+  id                   Int                    @id @default(autoincrement())
+  question             String                 @db.Text
+  answer               String?                @db.Text
+  view_count           Int?                   @default(0)
+  like_count           Int?                   @default(0)
+  dislike_count        Int?                   @default(0)
+  draft_status         Boolean?               @default(true)
+  public_status        Boolean?               @default(false)
+  questionAnswer_Topic questionAnswer_Topic[]
+}
+
+model questionAnswer_Topic {
+  topic_id          Int
+  questionAnswer_id Int
+  Topic             Topic          @relation(fields: [topic_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "questionAnswer_Topic_ibfk_1")
+  questionAnswer    questionAnswer @relation(fields: [questionAnswer_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "questionAnswer_Topic_ibfk_2")
+
+  @@id([topic_id, questionAnswer_id])
+  @@index([questionAnswer_id], map: "questionAnswer_id")
+}
