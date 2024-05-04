@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateQaDto } from './dto/create-qa.dto';
-import { UpdateQaDto } from './dto/update-qa.dto';
+import { Prisma } from '@prisma/client';
+import { QaRepository } from './qa.repository';
 
 @Injectable()
 export class QaService {
-  create(createQaDto: CreateQaDto) {
-    return 'This action adds a new qa';
-  }
+  constructor(private readonly qaRepository:QaRepository){}
+
+  create(QaCreateInput: CreateQaDto) {
+    return this.qaRepository.create(QaCreateInput)
+  } 
 
   findAll() {
-    return `This action returns all qa`;
+    return this.qaRepository.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} qa`;
+    return this.qaRepository.findOne(id);
   }
 
-  update(id: number, updateQaDto: UpdateQaDto) {
-    return `This action updates a #${id} qa`;
+  update(id: number, qaUpdateInput: Prisma.questionAnswerUpdateInput) {
+    return this.qaRepository.update(id , qaUpdateInput)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} qa`;
+    return this.qaRepository.remove(id);
   }
 }

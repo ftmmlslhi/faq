@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { QaService } from './qa.service';
 import { CreateQaDto } from './dto/create-qa.dto';
-import { UpdateQaDto } from './dto/update-qa.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('qa')
 export class QaController {
@@ -22,8 +22,8 @@ export class QaController {
     return this.qaService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQaDto: UpdateQaDto) {
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateQaDto: Prisma.questionAnswerUpdateInput) {    
     return this.qaService.update(+id, updateQaDto);
   }
 
