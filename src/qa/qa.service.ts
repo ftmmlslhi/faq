@@ -19,6 +19,10 @@ export class QaService {
     return this.qaRepository.findOne(id);
   }
 
+  async qaSortBytopic(sortBy: 'asc' | 'desc' = 'asc'){
+    return this.qaRepository.qaSortBytopic(sortBy)
+  }
+
   update(id: number, qaUpdateInput: Prisma.questionAnswerUpdateInput) {
     return this.qaRepository.update(id , qaUpdateInput)
   }

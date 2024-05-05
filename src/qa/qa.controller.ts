@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query } from '@nestjs/common';
 import { QaService } from './qa.service';
 import { CreateQaDto } from './dto/create-qa.dto';
 import { Prisma } from '@prisma/client';
@@ -15,6 +15,11 @@ export class QaController {
   @Get()
   findAll() {
     return this.qaService.findAll();
+  }
+
+  @Get('sortby')
+  qaSortBytopic(@Query('sortBy') sortBy: 'asc' | 'desc' = 'asc'){
+    return this.qaService.qaSortBytopic(sortBy);
   }
 
   @Get(':id')

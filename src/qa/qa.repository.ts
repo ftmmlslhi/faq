@@ -16,14 +16,14 @@ export class QaRepository {
           draft_status: qaCreateInput.draft_status,
           public_status: qaCreateInput.public_status,
           questionAnswer_Topic: {
-            create:{
+            create: {
               Topic: {
                 connect: {
-                  id: qaCreateInput.questionAnswer_Topic
-                }
-              }    
-            }
-          }
+                  id: qaCreateInput.questionAnswer_Topic,
+                },
+              },
+            },
+          },
         },
         include: {
           questionAnswer_Topic: true,
@@ -52,8 +52,29 @@ export class QaRepository {
     }
   }
 
+  async qaSortBytopic(sortOrder: 'asc' | 'desc' = 'asc') {
+    return await this.prisma.questionAnswer_Topic.findMany({
+      select: {
+        questionAnswer: {
+          select: {
+            id: true,
+            question: true,
+            answer: true,
+            dislike_count:true,
+            like_count:true,
+            public_status: true,
+            draft_status:true
+          },
+        },
+        topic_id: true,
+      },
+      orderBy: {
+        topic_id: sortOrder,
+      },
+    });
+  }
+
   async update(id: number, qaUpdateInput: Prisma.questionAnswerUpdateInput) {
-    
     try {
       const res = await this.prisma.questionAnswer.update({
         data: {

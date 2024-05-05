@@ -17,12 +17,11 @@ export class TopicController {
   findAll() {
     return this.topicService.findAll();
   }
-  ////////////
+  
   @Get('sortby')
   topicSortBySec(@Query('sortBy') sortBy: 'asc' | 'desc' = 'asc'){
     return this.topicService.topicSortBySec(sortBy);
   }
-  ////////////
 
   @Get(':id')
   findOne(@Param('id') id: string) {
