@@ -40,7 +40,7 @@ export class UserRepository {
       if (!user) {
         return 'user not found!';
       }
-      const payload = { sub: user.user_id, username: user.username };
+      const payload = { sub: user.user_id, username: user.username, role: user.role };
       const access_token = await this.jwtService.signAsync(payload);
 
       const res = {
