@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { prismaService } from 'prisma/prisma.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
-import { Prisma, Topic } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TopicRepository {

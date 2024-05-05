@@ -54,15 +54,15 @@ model questionAnswer_Topic {
   @@index([questionAnswer_id], map: "questionAnswer_id")
 }
 
-model user {
-  user_id  Int       @id @default(autoincrement())
-  username String    @unique(map: "username") @db.VarChar(50)
-  password String    @db.VarChar(255)
-  email    String    @unique(map: "email") @db.VarChar(100)
-  role     user_role @default(user)
+model users {
+  user_id  Int        @id @default(autoincrement())
+  username String     @unique(map: "username") @db.VarChar(50)
+  password String     @db.VarChar(255)
+  email    String     @unique(map: "email") @db.VarChar(100)
+  role     users_role @default(user)
 }
 
-enum user_role {
+enum users_role {
   admin
   user
 }
