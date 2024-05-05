@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { prismaService } from 'prisma/prisma.service';
 import { CreateQaDto } from './dto/create-qa.dto';
 import { Prisma } from '@prisma/client';
+import { SearchAnswerDto } from './dto/SearchAnswer.dto';
 
 @Injectable()
 export class QaRepository {
@@ -30,13 +31,30 @@ export class QaRepository {
         },
       });
     } catch (error) {
-      console.error('Error updating qa:', error);
+      console.error('Error createting qa:', error);
       throw error;
     }
   }
 
   async findAll() {
     return this.prisma.questionAnswer.findMany({});
+  }
+  
+  async searchAnswer(searchAnswer : SearchAnswerDto) {    
+    try {
+      const res = await this.prisma.questionAnswer.findMany({
+        where: {
+          question:{
+            contains: searchAnswer.question,
+          }
+        }
+      });
+      return res
+      
+    } catch (error) {
+      console.error('Error in searchAnswer:', error);
+      throw error;
+    }
   }
 
   async findOne(id: number) {
@@ -47,10 +65,11 @@ export class QaRepository {
         },
       });
     } catch (error) {
-      console.error('Error updating qa:', error);
+      console.error('Error findOne qa:', error);
       throw error;
     }
   }
+  
 
   async qaSortBytopic(sortOrder: 'asc' | 'desc' = 'asc') {
     return await this.prisma.questionAnswer_Topic.findMany({
@@ -73,6 +92,15 @@ export class QaRepository {
       },
     });
   }
+
+  async PopularQa(sortOrder: 'asc' | 'desc' = 'asc'){
+    return this.prisma.questionAnswer.findMany({
+      orderBy: {
+        view_count: sortOrder
+      },
+    });
+  }
+
 
   async update(id: number, qaUpdateInput: Prisma.questionAnswerUpdateInput) {
     try {
@@ -109,7 +137,7 @@ export class QaRepository {
         data: res,
       };
     } catch (e) {
-      console.error('Error updating qa:', e);
+      console.error('Error removeing qa:', e);
       throw e;
     }
   }

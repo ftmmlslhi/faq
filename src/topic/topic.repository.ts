@@ -37,7 +37,7 @@ export class TopicRepository {
         },
       });
     } catch (error) {
-      console.error('Error updating topic:', error);
+      console.error('Error createting topic:', error);
       throw error;
     }
   }
@@ -79,7 +79,7 @@ export class TopicRepository {
         },
       });
     } catch (error) {
-      console.error('Error updating topic:', error);
+      console.error('Error findOne topic:', error);
       throw error;
     }
   }
@@ -133,7 +133,7 @@ export class TopicRepository {
         data: res,
       };
     } catch (e) {
-      console.error('Error updating topic:', e);
+      console.error('Error removeing topic:', e);
       throw e;
     }
   }

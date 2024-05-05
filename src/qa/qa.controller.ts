@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query } from '@
 import { QaService } from './qa.service';
 import { CreateQaDto } from './dto/create-qa.dto';
 import { Prisma } from '@prisma/client';
+import { SearchAnswerDto } from './dto/SearchAnswer.dto';
 
 @Controller('qa')
 export class QaController {
@@ -12,9 +13,19 @@ export class QaController {
     return this.qaService.create(createQaDto);
   }
 
+  @Post('searchAnswer')
+  searchAnswer(@Body() searchAnswerDto : SearchAnswerDto) {
+    return this.qaService.searchAnswer(searchAnswerDto);
+  }
+
   @Get()
   findAll() {
     return this.qaService.findAll();
+  }
+  
+  @Get('Popular')
+  PopularQa(@Query('sortBy') sortBy: 'asc' | 'desc' = 'asc'){
+    return this.qaService.PopularQa(sortBy);
   }
 
   @Get('sortby')

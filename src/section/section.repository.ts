@@ -29,7 +29,7 @@ export class SectionRepository {
         },
       });
     } catch (error) {
-      console.error('Error updating section:', error);
+      console.error('Error createting section:', error);
       throw error;
     }
   }
@@ -61,7 +61,7 @@ export class SectionRepository {
         },
       });
     } catch (error) {
-      console.error('Error updating section:', error);
+      console.error('Error findOne section:', error);
       throw error;
     }
   }
@@ -100,7 +100,7 @@ export class SectionRepository {
         data: res,
       };
     } catch (e) {
-      console.error('Error updating section:', e);
+      console.error('Error removeing section:', e);
       throw e;
     }
   }
