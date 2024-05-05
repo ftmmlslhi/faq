@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Query, Header } from '@nestjs/common';
 import { TopicService } from './topic.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
-import { UpdateTopicDto } from './dto/update-topic.dto';
-import { Prisma } from '@prisma/client';
+import { Prisma, Topic } from '@prisma/client';
 
 @Controller('topic')
 export class TopicController {
@@ -18,11 +17,18 @@ export class TopicController {
   findAll() {
     return this.topicService.findAll();
   }
+  ////////////
+  @Get('sortby')
+  topicSortBySec(@Query('sortBy') sortBy: 'asc' | 'desc' = 'asc'){
+    return this.topicService.topicSortBySec(sortBy);
+  }
+  ////////////
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.topicService.findOne(+id);
   }
+
 
   @Put(':id')
   update(@Param('id') id: string, @Body() sectionUpdateInput: Prisma.TopicUpdateInput) {

@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { prismaService } from 'prisma/prisma.service';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { Prisma } from '@prisma/client';
-import { connect } from 'http2';
 
 @Injectable()
 export class SectionRepository {
@@ -36,7 +35,15 @@ export class SectionRepository {
   }
 
   async findAll() {
-    return this.prisma.section.findMany({});
+    return this.prisma.section.findMany({
+      include: {
+        Section_Topic: {
+          select: {
+            Topic: true,
+          },
+        },
+      },
+    })
   }
 
   async findOne(id: number) {
@@ -44,6 +51,13 @@ export class SectionRepository {
       return this.prisma.section.findUnique({
         where: {
           id,
+        },
+        include: {
+          Section_Topic: {
+            select: {
+              Topic: true,
+            },
+          },
         },
       });
     } catch (error) {

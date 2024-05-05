@@ -20,6 +20,10 @@ export class TopicService {
     return this.topicRepository.findOne(id);
   }
 
+  async topicSortBySec(sortBy: 'asc' | 'desc' = 'asc'){
+    return this.topicRepository.topicSortBySec(sortBy)
+  }
+
   update(id: number, topicUpdateInput: Prisma.TopicUpdateInput) {
     return this.topicRepository.update(id , topicUpdateInput)
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { prismaService } from 'prisma/prisma.service';
 import { CreateTopicDto } from './dto/create-topic.dto';
-import { Prisma } from '@prisma/client';
+import { Prisma, Topic } from '@prisma/client';
 
 @Injectable()
 export class TopicRepository {
@@ -43,7 +43,20 @@ export class TopicRepository {
   }
 
   async findAll() {
-    return this.prisma.topic.findMany({});
+    return this.prisma.topic.findMany({
+      include: {
+        Section_Topic: {
+          select: {
+            Section: true,
+          },
+        },
+        questionAnswer_Topic: {
+          select: {
+            questionAnswer: true,
+          },
+        },
+      },
+    });
   }
 
   async findOne(id: number) {
@@ -52,11 +65,40 @@ export class TopicRepository {
         where: {
           id,
         },
+        include: {
+          Section_Topic: {
+            select: {
+              Section: true,
+            },
+          },
+          questionAnswer_Topic: {
+            select: {
+              questionAnswer: true,
+            },
+          },
+        },
       });
     } catch (error) {
       console.error('Error updating topic:', error);
       throw error;
     }
+  }
+
+  async topicSortBySec(sortOrder: 'asc' | 'desc' = 'asc') {
+    return await this.prisma.section_Topic.findMany({
+      select:{
+        Topic :{
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        section_id: true
+      },
+      orderBy: {
+        section_id: sortOrder,
+      },
+    });
   }
 
   async update(id: number, topicUpdateInput: Prisma.TopicUpdateInput) {
